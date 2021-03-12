@@ -36,8 +36,17 @@ class App extends React.Component {
 
 }
 
-function Wrapper(props) {
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", null, props.content), /*#__PURE__*/React.createElement("span", null, "hello"));
+function Wrapper(props) {// return (
+  //   <div>
+  //     <button>{props.content}</button>
+  //     <span>hello</span>
+  //   </div>
+  // )
 }
 
-console.log( /*#__PURE__*/React.createElement(App, null));
+const {
+  mount
+} = require('./app.js');
+
+console.log(mount);
+console.log(mount( /*#__PURE__*/React.createElement(App, null)));

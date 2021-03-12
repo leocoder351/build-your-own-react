@@ -10,6 +10,7 @@ function isClass(type) {
 }
 
 // 这个函数接受一个 React 元素（例如 <App />）并返回表示已挂载树的 DOM 或者 原生节点
+// 因为无法处理原生 DOM 类型，目前这个版本的 mount 没有递归终止条件，比如 div，既不是类组件，也不是函数组件
 function mount(element) {
   let type = element.type;
   let props = element.props;

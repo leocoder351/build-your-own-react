@@ -43,4 +43,7 @@ function Wrapper(props) {
   )
 }
 
-console.log(<App />)
+const { mount } = require('./app.js');
+
+console.log(mount)
+console.log(mount(<App />))
