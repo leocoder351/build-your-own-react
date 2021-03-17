@@ -30,7 +30,7 @@ function isClass(type) {
 class CompositeComponent {
   constructor(element) {
     this.currentElement = element;
-    this.renderedCompoenent = null;
+    this.renderedComponent = null;
     this.publicInstance = null;
   }
 
@@ -69,7 +69,7 @@ class CompositeComponent {
     // 递归，根据元素实例化子内部实例
     // <div /> 或 <p /> 是 DOMComponent，而 <App /> 或 <Button /> 是 CompositeComponent
     let renderedComponent = initialComponent(renderedElement);
-    this.renderedCompoenent = renderedComponent;
+    this.renderedComponent = renderedComponent;
 
     // 挂载渲染后的输出
     return renderedComponent.mount();
@@ -84,20 +84,19 @@ class CompositeComponent {
     }
 
     // 递归卸载，卸载单个渲染的组件
-    let renderedComponent = this.renderedCompoenent;
+    let renderedComponent = this.renderedComponent;
 
     renderedComponent.unmount();
   }
 
   getHostNode() {
     // 要求渲染组件提供它，递归深入任意组合组件
-    return this.renderedCompoenent.getHostNode();
+    return this.renderedComponent.getHostNode();
   }
 
   receive(nextElement) {
-    let prevProps = this.currentElement.props;
     let publicInstance = this.publicInstance;
-    let prevRenderedComponent = this.renderedCompoenent;
+    let prevRenderedComponent = this.renderedComponent;
     let prevRenderedElement = prevRenderedComponent.currentElement;
 
     // 更新*自己的*元素
@@ -134,7 +133,7 @@ class CompositeComponent {
     let nextNode = nextRenderedComponent.mount();
 
     // 替换子组件的引用
-    this.renderedCompoenent = nextRenderedComponent;
+    this.renderedComponent = nextRenderedComponent;
 
     // 将旧节点替换为新节点
     // 注意，这是 renderer 特定的代码，理想情况下应位于 CompositeComponent 之外
@@ -223,7 +222,6 @@ class DOMComponent {
     // 设置新的属性
     Object.keys(nextProps).forEach(propName => {
       if (propName !== 'children') {
-        // 这里没判断两次都存在的属性值是否一样，不一样再去重新设置？
         node.setAttribute(propName, nextProps[propName]);
       }
     });
@@ -250,7 +248,7 @@ class DOMComponent {
     // 注意以下部分非常简化
     // 它不处理重新排序、带空洞或有 key 的子组件
     // 它的存在只是为了说明整个流程，而不是细节
-    for (let i = 0; i < nextChildren; i++) {
+    for (let i = 0; i < nextChildren.length; i++) {
       // 尝试去获取此子组件现有的内部实例
       let prevChild = prevRenderedChildren[i];
 
@@ -274,7 +272,7 @@ class DOMComponent {
       // 如果我们无法更新现有的实例，必须卸载它并安装一个新的实例去替代
       if (!canUpdate) {
         let prevNode = prevChild.getHostNode();
-        prevNode.unmount();
+        prevChild.unmount();
 
         let nextChild = initialComponent(nextChildren[i]);
         let nextNode = nextChild.mount();
