@@ -13,10 +13,11 @@ function createElement (type, config, ...children) {
   let childrenCount = children.length;
   let props = Object.assign({}, config);
 
-  if (childrenCount === 1) {
-    props.children = children[0];
-  } else if (childrenCount > 0) {
-    props.children = children.slice(0);
+  let childCount = arguments.length - 2;
+  if (childCount === 1) {
+    props.children = children;
+  } else if (childCount > 1) {
+    props.children = Array.prototype.slice.call(arguments, 2);
   }
 
   return {

@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "babel": "babel src/version_01/demo.jsx -o src/version_01/bundle.js"
+    "babel": "babel src/version_03/demo.jsx -o src/version_03/bundle.js"
   },
   "keywords": [],
   "author": "",
